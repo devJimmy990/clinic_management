@@ -1,7 +1,7 @@
 import 'doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital/screens/doctor_details_page.dart';
-import 'package:hospital/.widgets/search_doctor_search_card.dart';
+import 'package:hospital/.widgets/search_doctor_card.dart';
 
 class DataSearch extends SearchDelegate {
   final Doctor doc = Doctor.def();

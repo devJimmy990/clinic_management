@@ -50,7 +50,7 @@ class Doctor extends Person {
   searchDoctor({required String name}) async {
     list.clear();
     var response = await Connection.getInstance().postRequest(
-      url: kDoctorFind,
+      url: kDoctorSearch,
       data: {"doctorName": name},
     );
     if (response["status"] == "success") {
@@ -87,7 +87,7 @@ class Doctor extends Person {
         );
       }
     }
-    return list.isEmpty ? null : list;
+    return list;
   }
 
   set setDoctorStars(int val) => doctorRate = val;

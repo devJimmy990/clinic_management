@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hospital/screens/main.dart';
 import 'package:hospital/models/patient.dart';
 import 'package:hospital/.widgets/auth_bg.dart';
 import 'package:hospital/.widgets/snakbar.dart';
@@ -18,6 +17,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   Icon passwordIcon = const Icon(Icons.visibility);
   bool isPasswordHide = true;
   late Patient patient;
+
+  showSnackBar({required String label}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        mySnakbar(label: label, context: context));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +96,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                                   email: kAuthEmailController.text.trim(),
                                   password:
                                       kAuthPasswordController.text.trim());
-                              await patient.createNewAccount();
-                            }
-                            if (patientSharedPrefs
-                                    .getBool(kPatientPrefrsIsLogged) ==
-                                true) {
-                              goHome();
+                              var res = await patient.createNewAccount();
+                              res
+                                  ? goHome()
+                                  : showSnackBar(
+                                      label: "This Email is Used Before");
                             }
                           },
                           child: const Text(kAuthSignupLabel)),

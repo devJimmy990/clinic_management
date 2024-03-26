@@ -18,6 +18,10 @@ class _LoginPageState extends State<LoginPage> {
   Icon passwordIcon = const Icon(Icons.visibility);
   bool isPasswordHide = true;
   late Patient patient;
+  showSnackBar({required String label}) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(mySnakbar(label: label, context: context));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +65,10 @@ class _LoginPageState extends State<LoginPage> {
                             kAuthEmailController.text.trim();
                         patient.setPersonPassword =
                             kAuthPasswordController.text.trim();
-                        await patient.loginAccount();
-                        if (patientSharedPrefs
-                                .getBool(kPatientPrefrsIsLogged) ==
-                            true) {
-                          goHome();
-                        }
+                        var res = await patient.loginAccount();
+                        res
+                            ? goHome()
+                            : showSnackBar(label: "No User With This Email");
                       }
                     },
                     style: ElevatedButton.styleFrom(

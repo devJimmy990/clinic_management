@@ -22,14 +22,15 @@ class Patient extends Person {
         "patientPassword": getPersonPassword,
       },
     );
-    print("Response is: $response");
     if (response["status"] == "success") {
       setPatientPrefs(
         id: response["data"]["patient_id"],
         name: response["data"]["patient_name"],
         isLogged: true,
       );
+      return true;
     }
+    return false;
   }
 
   loginAccount() async {
@@ -46,6 +47,8 @@ class Patient extends Person {
         name: response["data"]["patient_name"],
         isLogged: true,
       );
+      return true;
     }
+    return false;
   }
 }

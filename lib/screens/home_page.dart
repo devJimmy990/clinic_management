@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital/.widgets/search_box.dart';
 import 'package:hospital/constants/strings.dart';
 import 'package:hospital/models/doctor.dart';
 import 'package:hospital/models/department.dart';
@@ -7,7 +8,6 @@ import 'package:hospital/models/data_search.dart';
 import 'package:hospital/.widgets/doctor_card.dart';
 import 'package:hospital/.widgets/department_card.dart';
 import 'package:hospital/screens/dep_doctors_page.dart';
-import 'package:hospital/screens/appointement_page.dart';
 import 'package:hospital/screens/doctor_details_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,36 +36,11 @@ class _HomePageState extends State<HomePage> {
             const Spacer(),
             Expanded(
               flex: 2,
-              child: InkWell(
-                  onTap: () => showSearch(
-                        context: context,
-                        delegate: DataSearch(),
-                      ),
-                  child: Card(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Icon(Icons.search),
-                          Spacer(),
-                          Text(
-                            kFindLabel,
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                          Spacer(flex: 2),
-                        ],
-                      ),
-                    ),
-                  )),
+              child: searchBox(
+                delegate: DataSearch(),
+                context: context,
+                label: kFindLabel,
+              ),
             ),
             const Spacer(),
           ],
@@ -91,12 +66,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const Spacer(),
                     InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AppointmentPage(),
-                        ),
-                      ),
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, kPagesNavAppointment),
                       child: const Text(
                         kSeeLabel,
                         style: TextStyle(

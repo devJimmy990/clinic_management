@@ -57,38 +57,6 @@ class Appointment {
     return list;
   }
 
-  isPatientCanBook() async {
-    var response = await Connection.getInstance().postRequest(
-      url: kAppointmentCheck,
-      data: {
-        "doctorID": getDoctor.getPersonID.toString(),
-        "patientID": getPatientID.toString(),
-      },
-    );
-    if (response["status"] == "success") {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  isAppointmentExisted() async {
-    var response = await Connection.getInstance().postRequest(
-      url: kAppointmentFind,
-      data: {
-        "date": getAppointmentDate,
-        "doctorID": getDoctor.getPersonID.toString(),
-        "patientID": getPatientID.toString(),
-        "time": getAppointmentTime.toString(),
-      },
-    );
-    if (response["status"] == "success") {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   deleteAppointment() async {
     bool isChanged = false;
     var response = await Connection.getInstance()
@@ -97,6 +65,15 @@ class Appointment {
     });
     response["status"] == "success" ? isChanged = true : isChanged = false;
     return isChanged;
+  }
+
+  checkAppointmentFound({required int patientID, required int doctorID}) async {
+    var response = await Connection.getInstance()
+        .postRequest(url: kAppointmentCheck, data: {
+      "patientID": "$patientID",
+      "doctorID": "$doctorID",
+    });
+    print("Response is: $response");
   }
 
   changeAppointmentStatus() async {
